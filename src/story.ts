@@ -1,3 +1,5 @@
+import { Utils } from "./utils";
+
 export enum StoryState {
   Running,
   Success,
@@ -14,4 +16,7 @@ export enum Severity {
 }
 
 export class Story {
+  private _id = Utils.newGuid();
+  constructor() {
+  }
 }
