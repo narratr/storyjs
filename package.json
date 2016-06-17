@@ -1,0 +1,26 @@
+{
+  "name": "storyjs",
+  "version": "0.0.1",
+  "description": "A rule-based, contextual logging and telemetry framework for javascript",
+  "main": "story.js",
+  "scripts": {
+    "build": "node node_modules/typescript/bin/tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/narratr/storyjs.git"
+  },
+  "keywords": [
+    "logging;telemetry"
+  ],
+  "author": "Amit Apple",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/narratr/storyjs/issues"
+  },
+  "homepage": "https://github.com/narratr/storyjs#readme",
+  "dependencies": {
+    "typescript": "^1.8.10"
+  }
+}

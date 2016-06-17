@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"allowJs": false,
+		"declaration": true,
+		"module": "CommonJS",
+		"target": "es5",
+		"noImplicitAny": true,
+		"outDir": "build"
+	},
+	"filesGlob": [
+		"src/*.ts"
+	],
+	"files": [
+		"src/story.ts",
+		"src/utils.ts"
+	],
+	"atom": {
+		"rewriteTsconfig": true
+	}
+}
