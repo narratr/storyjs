@@ -11,6 +11,7 @@
 		"src/*.ts"
 	],
 	"files": [
+		"src/logger.ts",
 		"src/story.ts",
 		"src/utils.ts"
 	],
