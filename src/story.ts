@@ -7,17 +7,39 @@ export enum StoryState {
   Failed
 }
 
-export interface Ruleset {
-  run(story: Story): void;
+export class Ruleset {
+  constructor(public name: string, public rules?: Array<Rule>) {
+    if (!this.rules) {
+      this.rules = [];
+    }
+  }
+
+  public process(story: Story) {
+    for (var i = 0; i < this.rules.length; i++) {
+      var rule = this.rules[i];
+      if (rule && rule.shouldProcess(story)) {
+          rule.process(story);
+          return;
+      }
+    }
+  }
+}
+
+export interface Rule {
+  name: string;
+  shouldProcess(story: Story): boolean;
+  process(story: Story): void;
 }
 
 export class Storytelling {
 
-  public static defaultRuleset = <Ruleset> {
-    run: (story: Story) => {
+  public static defaultRuleset = new Ruleset('Default Ruleset', [<Rule> {
+    name: 'Default Rule',
+    shouldProcess: () => true,
+    process: (story: Story) => {
       console.log(story.format());
     }
-  };
+  }]);
 
   public static beginNew(name: string): Story {
     var story = new Story(name, Storytelling.defaultRuleset);
