@@ -56,7 +56,7 @@ export class Story {
   private _state = StoryState.Running;
   private _chapters: Array<Story> = [];
 
-  constructor(private _name: string, private _ruleset: any) {
+  constructor(private _name: string, private _ruleset: Ruleset) {
   }
 
   public name(): string {
@@ -120,7 +120,7 @@ export class Story {
     if (!this._endDate) {
       this._endDate = Date.now();
       this._state = state;
-      this._ruleset && this._ruleset.run(this);
+      this._ruleset && this._ruleset.process(this);
     }
   }
 
