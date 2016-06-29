@@ -1,4 +1,4 @@
-import { Utils } from "./utils";
+import * as utils from "./utils";
 import * as logger from "./logger";
 
 export enum StoryState {
@@ -31,24 +31,8 @@ export interface Rule {
   process(story: Story): void;
 }
 
-export class Storytelling {
-
-  public static defaultRuleset = new Ruleset('Default Ruleset', [<Rule> {
-    name: 'Default Rule',
-    shouldProcess: () => true,
-    process: (story: Story) => {
-      console.log(story.format());
-    }
-  }]);
-
-  public static beginNew(name: string): Story {
-    var story = new Story(name, Storytelling.defaultRuleset);
-    return story;
-  }
-}
-
 export class Story {
-  private _id = Utils.newGuid();
+  private _id = utils.Utils.newGuid();
   private _logger = new logger.Logger();
   private _beginDate = Date.now();
   private _endDate: number;
@@ -124,23 +108,57 @@ export class Story {
     }
   }
 
+  public beginDate(): number {
+    return this._beginDate;
+  }
+
+  public chapters(): Array<Story> {
+    return this._chapters;
+  }
+
   public duration() {
     return (this._endDate || Date.now()) - this._beginDate;
   }
 
-  public beginNew(name: string) {
-    var chapter = Storytelling.beginNew(name);
-    this._chapters.push(chapter);
-    return chapter;
+  public allLogs(): Array<logger.LogEntry> {
+    var logs: Array<logger.LogEntry> = [];
+    Story.appendLogs(this, logs);
+    return logs;
   }
 
-  public format() {
-    var chaptersString = '\n';
+  private static appendLogs(story: Story, logs: Array<logger.LogEntry>) {
+    story.logs().forEach(log => logs.push(log));
 
-    for (var i in this._chapters) {
-      chaptersString += '\t' + this._chapters[i].format() + '\n';
+    var chapters = story.chapters();
+
+    for (var i = 0; i < chapters.length; i++) {
+      Story.appendLogs(chapters[i], logs);
+    }
+  }
+
+  public allData(): Array<utils.KeyValue> {
+    var data: Array<utils.KeyValue> = [];
+    Story.appendData(this, '', data);
+    return data;
+  }
+
+  private static appendData(story: Story, prefix: string, data: Array<utils.KeyValue>) {
+    var storyData = story.data();
+    for (var i in storyData) {
+      data.push({key: prefix + i, value: storyData[i]});
     }
 
-    return this._beginDate + ' ' + this.duration() + ' ' + JSON.stringify(this._data) + ' ' + JSON.stringify(this.logs) + chaptersString;
+    var chapters = story.chapters();
+
+    for (var j = 0; j < chapters.length; j++) {
+      var chapter = chapters[j];
+      Story.appendData(chapter, prefix + chapter.name() + '.', data);
+    }
+  }
+
+  public beginNew(name: string) {
+    var chapter = new Story(name, null);
+    this._chapters.push(chapter);
+    return chapter;
   }
 }

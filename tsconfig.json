@@ -11,8 +11,10 @@
 		"src/*.ts"
 	],
 	"files": [
+		"src/formatters.ts",
 		"src/logger.ts",
 		"src/story.ts",
+		"src/storytelling.ts",
 		"src/utils.ts"
 	],
 	"atom": {

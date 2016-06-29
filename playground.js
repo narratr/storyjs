@@ -1,4 +1,4 @@
-var storytelling = require('./build/story').Storytelling;
+var storytelling = require('./build/storytelling').Storytelling;
 
 function run() {
   var story = storytelling.beginNew('run');
